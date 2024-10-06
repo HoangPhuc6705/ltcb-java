@@ -30,17 +30,34 @@ public class TreeNode {
 		int start = 1;
 		int end = 2;
 		ArrayList<ArrayList<TreeNode>> B_Tree = new ArrayList<ArrayList<TreeNode>>();
+		int index = 0;
 		while (end <= level.size()) {
 			B_Tree.add(new ArrayList<TreeNode>());
 			for (int i = start; i <= end; ++i) {
-				B_Tree.get(i).add(level.get(i));
+				B_Tree.get(index).add(level.get(i));
 			}
-			
-			
-			
 			start = end + 1;
 			end = (end + 1) * 2;
+			++index;
 		}
+		
+		for (int i = 0; i < B_Tree.size(); ++i) {
+			ArrayList<TreeNode> reverseList = new ArrayList<TreeNode>(B_Tree.get(i));
+			Collections.reverse(reverseList);
+			for (int j = 0; j < B_Tree.get(i).size(); ++j) {
+				TreeNode a = B_Tree.get(i).get(j);
+				TreeNode b = reverseList.get(j);
+				
+				if (a == null && b != null || a != null && b == null) {
+					return false;
+				}
+				
+				if (a.val != b.val) {
+					return false;
+				}
+			}
+		}
+		
 		
 		return true;
 	}
@@ -69,6 +86,6 @@ public class TreeNode {
 		node.left.right = new TreeNode(4);
 		node.right.left = new TreeNode(4);
 		node.right.right = new TreeNode(3);
-		node.isSymmetric(node);
+		System.out.println(node.isSymmetric(node));
 	}
 }
